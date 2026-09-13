@@ -1,0 +1,32 @@
+[project]
+name = "rock-and-roll"
+version = "0.1.0"
+description = "Rock & Roll Podcast Service"
+requires-python = ">=3.13"
+
+dependencies = [
+    "alembic>=1.20.0",
+    "bleach>=6.4.0",
+    "colorgram-py>=1.2.0",
+    "fastapi>=0.141.1",
+    "httpx>=0.28.1",
+    "pillow>=12.3.0",
+    "psycopg[binary]>=3.3.5",
+    "pydantic>=2.13.5",
+    "pydantic-settings>=2.15.0",
+    "python-multipart>=0.0.32",
+    "respx>=0.23.1",
+    "sqlalchemy>=2.0.52",
+    "uvicorn>=0.52.4",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "pytest-asyncio>=1.2.0",
+    "pytest-cov>=7.0.0"
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]
