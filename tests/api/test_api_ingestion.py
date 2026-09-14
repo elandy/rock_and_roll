@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from uuid import uuid4
 
 import pytest
 from fastapi.testclient import TestClient
@@ -14,9 +13,9 @@ from app.services.ingestion import (
     IngestionResult,
     SkippedPodcast,
 )
+from app.core.config import settings
 
-
-API_KEY = "test-api-key"
+API_KEY = settings.api_key
 
 
 @dataclass

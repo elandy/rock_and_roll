@@ -2,13 +2,14 @@ from uuid import uuid4
 import json
 import pytest
 from fastapi.testclient import TestClient
+import os
 
 from app.db.models import Podcast
 from app.db.session import get_db
 from app.main import app
+from app.core.config import settings
 
-
-API_KEY = "test-api-key"
+API_KEY = settings.api_key
 
 
 @pytest.fixture

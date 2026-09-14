@@ -42,7 +42,7 @@ jobs:
       - name: Run migrations
         env:
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/podcasts_test
-          API_KEY: ci-test-key
+          API_KEY: ${{ vars.TEST_API_KEY }}
           ITUNES_BASE_URL: https://itunes.apple.com
         run: uv run alembic upgrade head
 
@@ -50,6 +50,6 @@ jobs:
         env:
           TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/podcasts_test
           DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/podcasts_test
-          API_KEY: ci-test-key
+          API_KEY: ${{ vars.TEST_API_KEY }}
           ITUNES_BASE_URL: https://itunes.apple.com
         run: uv run pytest -v
