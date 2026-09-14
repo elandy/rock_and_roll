@@ -1,3 +1,5 @@
+[![CI](https://github.com/elandy/rock_and_roll/actions/workflows/ci.yml/badge.svg)](https://github.com/elandy/rock_and_roll/actions/workflows/ci.yml)
+
 # Rock & Roll Podcast Service
 
 A FastAPI + PostgreSQL REST API that ingests rock & roll podcasts from the iTunes Search API, enriches them with RSS metadata, extracts artwork color palettes, and exposes a searchable podcast catalog.
@@ -18,7 +20,7 @@ A FastAPI + PostgreSQL REST API that ingests rock & roll podcasts from the iTune
 
 ## Tech Stack
 
-* Python 3.14
+* Python 3.13
 * FastAPI
 * PostgreSQL
 * SQLAlchemy 2.0
@@ -175,6 +177,27 @@ Run a specific test file:
 ```bash
 docker compose exec api uv run pytest tests/test_ingestion.py
 ```
+
+## Continuous Integration
+
+GitHub Actions runs the test suite automatically on pushes to main and on pull requests.
+
+The CI workflow:
+
+* Starts PostgreSQL 16 as a service.
+* Installs Python and project dependencies using uv.
+* Applies the Alembic migrations.
+* Runs the full pytest suite.
+
+This validates both database migrations and application behavior in a clean environment.
+
+## Deployment
+
+The application has also been deployed to FastAPI Cloud with Neon PostgreSQL as the managed database.
+
+The deployed environment uses environment variables for configuration and secrets rather than storing deployment credentials in the repository.
+
+The deployment and its trade-offs are documented in NOTES.md.
 
 ## Database Migrations
 

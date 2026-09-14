@@ -262,13 +262,67 @@ For a larger catalog I would replace this with trigram indexes or PostgreSQL ful
 
 ---
 
+## CI
+
+GitHub Actions runs the test suite on pushes to main and pull requests. CI provisions PostgreSQL 16 as a service, installs dependencies with uv, applies Alembic migrations, and runs the full pytest suite. This keeps database-backed tests and migration validation automated without requiring external infrastructure.
+
+---
+
 ## Production Deployment
 
-In production I would package the application as a Docker image and deploy it behind a load balancer on a container platform such as Kubernetes or AWS ECS.
+For this take-home, the application was deployed to **FastAPI Cloud** with **Neon PostgreSQL** as the managed database. Both platforms provide free tiers, which made it possible to demonstrate a real deployed environment without introducing unnecessary infrastructure or cost.
 
-Configuration and secrets would come from environment variables managed by a secret manager rather than being stored in the repository.
+The deployment architecture is:
 
-The production stack would include:
+```text
+Client
+  |
+  v
+FastAPI Cloud
+  |
+  v
+Neon PostgreSQL
+  |
+  +--> iTunes API
+  |
+  +--> RSS feeds
+```
+
+### Why FastAPI Cloud + Neon
+
+This combination keeps the deployment simple while still demonstrating several production-oriented concerns:
+
+* Managed application hosting rather than running the API locally.
+* Managed PostgreSQL rather than an application-owned database container.
+* Environment-based configuration and secrets.
+* HTTPS and externally accessible API documentation.
+* A real separation between the application and database infrastructure.
+* Minimal operational overhead for a small service.
+
+The free tiers were also appropriate for the scope of the take-home and avoided spending time and money on infrastructure that was not required to demonstrate the application.
+
+### Tradeoffs
+
+This deployment is intentionally simpler than what I would use for a high-traffic production system.
+
+**FastAPI Cloud**
+
+* Simplifies deployment and application hosting.
+* Removes the need to manage servers, container orchestration, and load balancing directly.
+* Provides less infrastructure-level control than managing the application on Kubernetes, ECS, or another container platform.
+* Application scaling and operational configuration are constrained by the hosting platform.
+* The current image-processing implementation writes images to the local filesystem. This is suitable for demonstrating the feature but should be replaced with persistent object storage for a production deployment where filesystem persistence cannot be assumed.
+
+**Neon PostgreSQL**
+
+* Provides managed PostgreSQL without having to operate database servers.
+* Supports a serverless-oriented workflow and is convenient for a small application.
+* Introduces a dependency on an external managed database provider.
+* Production workloads would require consideration of connection pooling, compute sizing, backups, availability, and operational requirements appropriate to the expected traffic.
+
+### Larger-Scale Production Architecture
+
+If the service needed to support substantially higher traffic or a very large catalog, I would move toward a more controlled production architecture:
 
 * FastAPI application containers
 * managed PostgreSQL
@@ -276,8 +330,12 @@ The production stack would include:
 * reverse proxy/load balancer
 * centralized logging
 * monitoring and alerting
+* environment-specific secret management
+* background workers for long-running ingestion jobs
 
-New versions would be deployed using rolling deployments to avoid downtime.
+New application versions could then be deployed using rolling deployments to avoid downtime.
+
+The current deployment intentionally avoids this additional infrastructure because it is outside the scope of the assignment.
 
 ---
 
