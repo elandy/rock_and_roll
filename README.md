@@ -75,9 +75,9 @@ http://localhost:8000/docs
 Configure the service using environment variables.
 
 | Variable          | Description                     | Default                    |
-| ----------------- | ------------------------------- | -------------------------- |
+| ----------------- | ------------------------------- |----------------------------|
 | `DATABASE_URL`    | PostgreSQL connection string    | Docker default             |
-| `API_KEY`         | API key for protected endpoints | `test-api-key`              |
+| `API_KEY`         | API key for protected endpoints | `supersecret`              |
 | `ITUNES_BASE_URL` | iTunes Search API base URL      | `https://itunes.apple.com` |
 
 ## Authentication
@@ -87,7 +87,7 @@ All endpoints except `/health` require an API key.
 Include the header:
 
 ```http
-X-API-Key: test-api-key
+X-API-Key: supersecret
 ```
 
 Swagger UI also supports authentication through the **Authorize** button.
