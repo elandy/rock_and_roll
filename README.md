@@ -163,6 +163,7 @@ GET /export/podcasts
 ```
 
 Returns a streaming **NDJSON** response suitable for large datasets.
+This endpoint returns NDJSON (newline-delimited JSON), so tools like curl, jq, or line-oriented processors are the intended clients rather than Swagger's JSON viewer.
 
 ## Running Tests
 

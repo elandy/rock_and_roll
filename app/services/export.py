@@ -1,7 +1,6 @@
 import json
 from collections.abc import Iterator
 
-from app.db.models import Podcast
 from app.repositories.podcasts import iter_podcasts_for_export
 from sqlalchemy.orm import Session
 

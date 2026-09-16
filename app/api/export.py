@@ -13,7 +13,22 @@ router = APIRouter(
 )
 
 
-@router.get("/podcasts")
+@router.get(
+    "/podcasts",
+    response_class=StreamingResponse,
+    responses={
+        200: {
+            "content": {
+                "application/x-ndjson": {
+                    "example": (
+                        '{"id":"...","title":"Rock Feed"}\n'
+                        '{"id":"...","title":"Rock Weekly"}'
+                    )
+                }
+            }
+        }
+    },
+)
 def export_podcasts(
     db: Session = Depends(get_db),
 ) -> StreamingResponse:
